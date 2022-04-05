@@ -1,10 +1,13 @@
 using NUnit.Framework;
+//Convert the class into a record using positional parameters. 
+//The Record needs to automatically cast the name field to UPPER CASE without using a defined constructor.
+//Email stays optional and continues to be defaulted to “hello-there@example.com”
 
 namespace ImmutableProgrammingTraining.Exercises.Exercise1;
 
 public class ConvertToRecord
 {
-	public ConvertToRecord(string name, string? email = null)
+	public ConvertToRecord(string name, string? email = "hello-there@example.com")
 	{
 		Name = name.ToUpper();
 		Email = email;
@@ -36,6 +39,6 @@ public class ConvertToRecordTests
 	public void Test2()
 	{
 		var convertToRecord = new ConvertToRecord("General Kenboi");
-		Assert.That(convertToRecord.Email, Is.Null);
+		Assert.That(convertToRecord.Email, Is.EqualTo("hello-there@example.com"));
 	}
 }
