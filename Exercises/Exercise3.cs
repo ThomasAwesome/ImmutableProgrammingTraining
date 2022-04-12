@@ -2,7 +2,7 @@ using System;
 using System.Collections.Immutable;
 using NUnit.Framework;
 
-namespace ImmutableProgrammingTraining.Exercises.Exercise2;
+namespace ImmutableProgrammingTraining.Exercises.Exercise3;
 
 //Implement the logic in the method to pass the tests. 
 //The methods should use the "with" to return a new object.
