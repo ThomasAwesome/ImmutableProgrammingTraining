@@ -1,122 +1,29 @@
 using System;
-using System.Collections.Immutable;
 using NUnit.Framework;
 
 namespace ImmutableProgrammingTraining.Exercises.Exercise3;
 
-//Implement the logic in the method to pass the tests. 
-//The methods should use the "with" to return a new object.
-public record User(Guid Id, string Email, string Name, ImmutableList<string> AdditionalEmails)
+//Remove the ticks from the datatime. Some databases can't save datetimes with that much precision.
+public record ModifingDateTime(Guid Id, string Name, DateTime LastUpdated)
 {
-	//Prevents the User Id from being changed.
-	public Guid Id { get; } = Id;
-
-	public User UpdateEmail(string email)
-	{
-		return null;
-	}
-
-	public User UpdateName(string name)
-	{
-		return null;
-	}
-
-	public User AddAdditionalEmail(string email)
-	{
-		return null;
-	}
-
-	public User RemoveAdditionalEmail(string email)
-	{
-		return null;
-	}
 
 }
 
+
 [TestFixture]
-public class UserTests
+public class ModifingPropertyValuesTests
 {
-
 	[Test]
-	public void When_updating_the_email_and_they_are_the_same()
+	public void RemoveTicksFromDateTime()
 	{
-		string email = "General-Kenobi@eample.com";
-		var user = new User(Guid.NewGuid(), email, "Obi", ImmutableList.Create<string>());
+		var lastUpdated = DateTime.UtcNow;
+		var expected = new DateTime(lastUpdated.Year, lastUpdated.Month, lastUpdated.Day, lastUpdated.Hour, lastUpdated.Minute, lastUpdated.Second, lastUpdated.Millisecond, lastUpdated.Kind);
+		var modifingDateTime = new ModifingDateTime(Guid.NewGuid(), "Mando", lastUpdated);
+		Assert.That(modifingDateTime.LastUpdated, Is.EqualTo(expected));
 
-		var updatedUser = user.UpdateEmail(email);
-
-		Assert.That(updatedUser, Is.EqualTo(user));
-	}
-
-	[Test]
-	public void When_updating_the_email_and_they_are_different()
-	{
-		string email = "General-Kenobi@eample.com";
-		var user = new User(Guid.NewGuid(), email, "Obi", ImmutableList.Create<string>());
-		var updatedEmail = "hello-there@eample.com";
-		var updatedUser = user.UpdateEmail(updatedEmail);
-
-		Assert.Multiple(() =>
-		{
-			Assert.That(updatedUser, Is.Not.EqualTo(user));
-			Assert.That(updatedUser.Email, Is.EqualTo(updatedEmail));
-		});
-	}
-
-	[Test]
-	public void When_updating_the_name_and_they_are_the_same()
-	{
-		const string Name = "Obi";
-
-		var user = new User(Guid.NewGuid(), "General-Kenobi@eample.com", Name, ImmutableList.Create<string>());
-
-		var updatedUser = user.UpdateName(Name);
-
-		Assert.That(updatedUser, Is.Not.EqualTo(user));
-	}
-
-	[Test]
-	public void When_updating_the_name_and_they_are_different()
-	{
-		var user = new User(Guid.NewGuid(), "General-Kenobi@eample.com", "Obi", ImmutableList.Create<string>());
-		var upatedName = "Obi-Wan";
-
-		var updatedUser = user.UpdateName(upatedName);
-
-		Assert.Multiple(() =>
-		{
-			Assert.That(updatedUser, Is.Not.EqualTo(user));
-			Assert.That(updatedUser, Is.EqualTo(upatedName));
-		});
-	}
-
-	[Test]
-	public void When_adding_an_additional_email_and_it_adds_it_to_the_list_of_emails()
-	{
-		var user = new User(Guid.NewGuid(), "General-Kenobi@eample.com", "Obi", ImmutableList.Create<string>());
-
-		var additionalEmail = "obi-wan-kenboi@example.com";
-		var updatedUser = user.AddAdditionalEmail(additionalEmail);
-
-		Assert.Multiple(() =>
-		{
-			Assert.That(updatedUser, Is.Not.EqualTo(user));
-			Assert.That(updatedUser.AddAdditionalEmail, Does.Contain(additionalEmail));
-		});
-	}
-
-	[Test]
-	public void When_removing_an_additional_email_and_it_removes_it_to_the_list_of_emails()
-	{
-		var additionalEmail = "obi-wan-kenboi@example.com";
-		var user = new User(Guid.NewGuid(), "General-Kenobi@eample.com", "Obi", ImmutableList.Create<string>(additionalEmail));
-
-		var updatedUser = user.RemoveAdditionalEmail(additionalEmail);
-
-		Assert.Multiple(() =>
-		{
-			Assert.That(updatedUser, Is.Not.EqualTo(user));
-			Assert.That(updatedUser.AddAdditionalEmail, Does.Not.Contain(additionalEmail));
-		});
+		var upatedLastUpdated = DateTime.UtcNow.AddDays(1).AddHours(-1);
+		var updatedExpected = new DateTime(upatedLastUpdated.Year, upatedLastUpdated.Month, upatedLastUpdated.Day, upatedLastUpdated.Hour, upatedLastUpdated.Minute, upatedLastUpdated.Second, upatedLastUpdated.Millisecond, upatedLastUpdated.Kind); 
+		var updatedDateTime = modifingDateTime with {Name = "Kenobi", LastUpdated = upatedLastUpdated};
+		Assert.That(updatedDateTime.LastUpdated, Is.EqualTo(updatedExpected));
 	}
 }
