@@ -6,7 +6,7 @@ namespace ImmutableProgrammingTraining.Exercises.Exercise2;
 
 public record ReadOnlyIdentity(Guid Id, string Name)
 {
-	
+	public Guid Id { get; } = Id;
 }
 
 public class CodeChallenge
@@ -16,6 +16,6 @@ public class CodeChallenge
 		var user = new ReadOnlyIdentity(Guid.NewGuid(), "kenobi");
 
 		//prevent the identity of the entity from changing.
-		var preventThis = user with {Id = Guid.NewGuid()};
+		//var preventThis = user with {Id = Guid.NewGuid()}; Prevent build errors
 	}
 }

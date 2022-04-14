@@ -5,18 +5,9 @@ using NUnit.Framework;
 
 namespace ImmutableProgrammingTraining.Exercises.Exercise1;
 
-public class ConvertToRecord
+public record ConvertToRecord(string Name, string? Email = "hello-there@example.com")
 {
-	public ConvertToRecord(string name, string? email = "hello-there@example.com")
-	{
-		Name = name.ToUpper();
-		Email = email;
-	}
-
-	public string Name { get; set; }
-
-	public string? Email { get; set; }
-
+	public string Name { get; init; } = Name.ToUpper();
 }
 
 [TestFixture]
