@@ -72,7 +72,7 @@ public class UserTests
 
 		var updatedUser = user.UpdateName(Name);
 
-		Assert.That(updatedUser, Is.Not.EqualTo(user));
+		Assert.That(updatedUser, Is.EqualTo(user));
 	}
 
 	[Test]
@@ -86,7 +86,7 @@ public class UserTests
 		Assert.Multiple(() =>
 		{
 			Assert.That(updatedUser, Is.Not.EqualTo(user));
-			Assert.That(updatedUser, Is.EqualTo(upatedName));
+			Assert.That(updatedUser.Name, Is.EqualTo(upatedName));
 		});
 	}
 
@@ -101,7 +101,7 @@ public class UserTests
 		Assert.Multiple(() =>
 		{
 			Assert.That(updatedUser, Is.Not.EqualTo(user));
-			Assert.That(updatedUser.AddAdditionalEmail, Does.Contain(additionalEmail));
+			Assert.That(updatedUser.AdditionalEmails, Does.Contain(additionalEmail));
 		});
 	}
 
@@ -116,7 +116,7 @@ public class UserTests
 		Assert.Multiple(() =>
 		{
 			Assert.That(updatedUser, Is.Not.EqualTo(user));
-			Assert.That(updatedUser.AddAdditionalEmail, Does.Not.Contain(additionalEmail));
+			Assert.That(updatedUser.AdditionalEmails, Does.Not.Contain(additionalEmail));
 		});
 	}
 }
